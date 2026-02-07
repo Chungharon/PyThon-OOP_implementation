@@ -209,3 +209,85 @@ class Patient(Person):
             "total_appointments": len(self._appointments)
         })
         return info
+
+
+class Doctor(Person):
+    """Doctor class for the Hospital Management System"""
+    
+    def __init__(self, person_id: str, name: str, email: str, phone: str, 
+                 date_of_birth: datetime, specialization: str, license_number: str):
+        super().__init__(person_id, name, email, phone, date_of_birth)
+        self._specialization = specialization
+        self._license_number = license_number
+        self._hire_date = datetime.now()
+        self._patients: List[Patient] = []
+        self._appointments: List['Appointment'] = []
+        self._department: Optional['MedicalDepartment'] = None
+        self._salary = 0.0
+    
+    @property
+    def specialization(self) -> str:
+        return self._specialization
+    
+    @property
+    def license_number(self) -> str:
+        return self._license_number
+    
+    @property
+    def salary(self) -> float:
+        return self._salary
+    
+    @salary.setter
+    def salary(self, value: float):
+        if value < 0:
+            raise ValueError("Salary cannot be negative")
+        self._salary = value
+    
+    def add_patient(self, patient: Patient):
+        """Add a patient to doctor's list"""
+        if patient not in self._patients:
+            self._patients.append(patient)
+    
+    def remove_patient(self, patient: Patient):
+        """Remove a patient from doctor's list"""
+        if patient in self._patients:
+            self._patients.remove(patient)
+    
+    def schedule_appointment(self, appointment: 'Appointment'):
+        """Schedule an appointment"""
+        if appointment not in self._appointments:
+            self._appointments.append(appointment)
+    
+    def get_today_appointments(self) -> List['Appointment']:
+        """Get today's appointments"""
+        today = datetime.now().date()
+        return [apt for apt in self._appointments 
+                if apt.appointment_date.date() == today 
+                and apt.status == AppointmentStatus.SCHEDULED]
+    
+    def prescribe_medication(self, patient: Patient, prescription: 'Prescription'):
+        """Prescribe medication to a patient"""
+        print(f"Dr. {self._name} prescribed medication to {patient.name}")
+        return prescription
+    
+    def write_diagnosis(self, patient: Patient, diagnosis: str):
+        """Write diagnosis for a patient"""
+        patient.add_medical_history(f"Diagnosis: {diagnosis}")
+        print(f"Diagnosis written for {patient.name}: {diagnosis}")
+    
+    def get_patients(self) -> List[Patient]:
+        """Get list of patients"""
+        return self._patients.copy()
+    
+    def get_info(self) -> Dict:
+        """Return doctor information"""
+        info = super().get_info()
+        info.update({
+            "specialization": self._specialization,
+            "license_number": self._license_number,
+            "hire_date": self._hire_date.strftime("%Y-%m-%d"),
+            "total_patients": len(self._patients),
+            "salary": self._salary,
+            "department": self._department.name if self._department else "Not assigned"
+        })
+        return info
