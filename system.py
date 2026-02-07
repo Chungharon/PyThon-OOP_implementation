@@ -65,7 +65,7 @@ class Person:
 
 
 class Student(Person):
-    """Student class inheriting from Person"""
+    """Student class inheriting from Person"""                    
     
     def __init__(self, person_id: str, name: str, email: str, phone: str, 
                  grade_level: int, enrollment_date: Optional[datetime] = None):
