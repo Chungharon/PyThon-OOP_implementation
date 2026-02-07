@@ -1,0 +1,12 @@
+Date,Region,Category,Quantity,Revenue,Age,Gender,Channel
+1/5/2024,Nairobi,Electronics,5,50000,25,Male,Online
+1/6/2024,Mombasa,groceries,10,20000,34,Female,In-Store
+7/1/2024,kisumu,Electronics,3,45000,45,M,online
+1/8/2024,Nakuru,Clothing,0,28000,19,F,Mobile
+"Sept 1st,2024",Nairobi ,Groceries,8,,,Female,Instore
+1/10/2024,Mombasa,Electronics ,4,52000,67,male,
+1/11/2024,Kisumu,Clothing,,30000,52,,Mobile
+1/12/2024,NAKURU,Groceries,6,24000,29,Female,Online
+1/12/2024,Nakuru,Groceries,6,24000,29,Female,Online
+,Nairobi,electronics,9,-5000,150,Other,Unknown
+7/1/2024,kisumu,Electronics,3,45000,45,M,online
