@@ -213,7 +213,7 @@ class Patient(Person):
 
 class Doctor(Person):
     """Doctor class for the Hospital Management System"""
-    
+
     def __init__(self, person_id: str, name: str, email: str, phone: str, 
                  date_of_birth: datetime, specialization: str, license_number: str):
         super().__init__(person_id, name, email, phone, date_of_birth)
@@ -288,6 +288,56 @@ class Doctor(Person):
             "hire_date": self._hire_date.strftime("%Y-%m-%d"),
             "total_patients": len(self._patients),
             "salary": self._salary,
+            "department": self._department.name if self._department else "Not assigned"
+        })
+        return info
+
+class Nurse(Person):
+    """Nurse class inheriting from person"""
+    def __init__(self, person_id: str, name: str, email: str, phone: str, date_of_birth: datetime):
+        super().__init__(person_id, name, email, phone, date_of_birth)
+        self._license_number = license_number
+        self.department: Optional['MedicalDepartment'] = None
+        self._salary = 0.0
+        self._shift: str = "Day"
+
+
+    @property
+    def shift(self) -> str:
+        return self._shift
+    
+    @shift.setter
+    def shift(self, value: str):
+        if value not in ["Day", "Night"]:
+            raise ValueError("Shift must be either 'Day' or 'Night'")
+        self._shift = value
+
+    @property
+    def salary(self) -> float:
+        return self._salary
+    
+    @salary.setter
+    def salary(self, value: float):
+        if value < 0:
+            raise ValueError("Salary cannot be negative")
+        self._salary = value
+
+    def administer_medication(self, patient: Patient, medication: 'Medication'):
+        """Administer medication to a patient"""
+        print(f"Nurse {self._name} administered medication to {patient.name}")
+    
+    def check_vitals(self, patient: Patient, bp: str, temp: float, pulse: int):
+        """Check patient vitals"""
+        print(f"Nurse {self._name} checked vitals for {patient.name}")
+        return patient.update_vital_signs(bp, temp, pulse)
+    
+    def get_info(self) -> Dict:
+        """Return nurse information"""
+        info = super().get_info()
+        info.update({
+            "license_number": self._license_number,
+            "salary": self._salary,
+            "shift": self._shift,
             "department": self._department.name if self._department else "Not assigned"
         })
         return info
